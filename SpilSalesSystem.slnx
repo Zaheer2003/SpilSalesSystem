@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="SpilSalesOrder.API/SpilSalesOrder.API.csproj" Id="328323dd-3f9f-4cbc-afa3-f88b012c2bb4" />
+  <Project Path="SpilSalesOrder.Application/SpilSalesOrder.Application.csproj" Id="9db25ddf-67bd-416d-8f2d-35f257fff6c2" />
+  <Project Path="SpilSalesOrder.Domain/SpilSalesOrder.Domain.csproj" Id="5104a1f0-0a97-4f56-b7c0-a87066bc1c29" />
+  <Project Path="SpilSalesOrder.Infrastructure/SpilSalesOrder.Infrastructure.csproj" Id="1719391f-f5c1-4133-964d-472872f4dc9f" />
+  <Project Path="SpilSalesSystem.API/SpilSalesSystem.API.csproj" />
+</Solution>
