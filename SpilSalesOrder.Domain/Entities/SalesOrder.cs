@@ -4,7 +4,39 @@ using System.Text;
 
 namespace SpilSalesOrder.Domain.Entities
 {
-    internal class SalesOrder
+   public class SalesOrder
     {
+        public int Id { get; set; }
+
+        public string InvoiceNo { get; set; }
+
+        public DateOnly InvoiceDate { get; set; }
+
+        public int CustomerId { get; set; }
+
+        public Customer Customer { get; set; }
+
+        public string CustomerName { get; set; }
+
+        public string AddressLine1 { get; set; }
+
+        public string AddressLine2 { get; set; }
+
+        public string City { get; set; }
+
+        public string PostalCode { get; set; }
+
+        public string RefernceNo { get; set; }
+
+        public decimal TotalExel { get; set; }
+
+        public decimal TotalTax { get; set; }
+
+        public decimal TotalInel { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
+
     }
 }
