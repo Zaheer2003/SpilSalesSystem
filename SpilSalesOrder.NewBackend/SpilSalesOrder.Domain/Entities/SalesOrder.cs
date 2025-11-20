@@ -37,7 +37,7 @@ namespace SpilSalesOrder.Domain.Entities
         public DateTime CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }
-        public object OrderItem { get; set; }
+
 
         public ICollection<OrderItem> OrderItemsList { get; set; }
     }
