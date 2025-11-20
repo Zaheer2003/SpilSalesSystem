@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import DUMMY_ITEMS_DATA from '../../data'; 
+
 import { getOrders, getOrderById, createOrder, updateOrder, deleteOrder } from '../../services/api';
 
 
@@ -93,7 +93,7 @@ const salesOrderSlice = createSlice({
       const itemToUpdate = state.items.find(item => item.id === id);
       if (itemToUpdate) {
         if (field === 'itemCode') {
-          const selectedItem = DUMMY_ITEMS_DATA.find(dataItem => dataItem.itemCode === value);
+          const selectedItem = action.payload.allItems.find(dataItem => dataItem.itemCode === value);
           if (selectedItem) {
             Object.assign(itemToUpdate, {
               itemCode: value,
