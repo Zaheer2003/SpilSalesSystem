@@ -21,10 +21,12 @@
   <ItemGroup>
     <ProjectReference Include="..\SpilSalesOrder.Application\SpilSalesOrder.Application.csproj" />
     <ProjectReference Include="..\SpilSalesOrder.Domain\SpilSalesOrder.Domain.csproj" />
+    <ProjectReference Include="..\SpilSalesOrder.Infrastructure\SpilSalesOrder.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="SpilSalesOrder\" />
   </ItemGroup>
 
 </Project>

@@ -18,6 +18,6 @@ namespace SpilSalesOrder.Domain.Entities
 
         public string PostalCode { get; set; }
 
-        public ICollection<SalesOrder> SalesOrders { get; set; }
+        public ICollection<SalesOrder> SalesOrder { get; set; }
     }
 }

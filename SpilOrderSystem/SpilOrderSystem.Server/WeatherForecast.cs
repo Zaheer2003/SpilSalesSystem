@@ -1,4 +1,4 @@
-namespace SpilSalesSystem.API
+namespace SpilOrderSystem.Server
 {
     public class WeatherForecast
     {

@@ -1,0 +1,6 @@
+@SpilOrderSystem.Server_HostAddress = http://localhost:5229
+
+GET {{SpilOrderSystem.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

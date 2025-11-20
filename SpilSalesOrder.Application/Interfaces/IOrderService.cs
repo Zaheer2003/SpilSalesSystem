@@ -1,10 +1,19 @@
-﻿using System;
+﻿using SpilSalesOrder.Application.DTOs;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace SpilSalesOrder.Application.Interfaces
 {
-    internal interface IOrderService
+    public interface IOrderService
     {
+        Task<Enumerable<OrderDto>> GetAllOrdersAsyn();
+
+        Task<OrderDto> GetOrderByIdAsync(long id);
+
+        Task<OrderDto> CreateOrderAsync(OrderDto orderDto);
+
+        Task<OrderDto> UpdateOrderAsync(OrderDto orderDto);
+
+        Task DeleteOrderAsync(long id);
     }
 }

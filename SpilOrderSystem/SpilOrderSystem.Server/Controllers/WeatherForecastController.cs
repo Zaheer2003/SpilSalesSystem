@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace SpilSalesSystem.API.Controllers
+namespace SpilOrderSystem.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]

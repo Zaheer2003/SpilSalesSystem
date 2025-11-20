@@ -26,17 +26,19 @@ namespace SpilSalesOrder.Domain.Entities
 
         public string PostalCode { get; set; }
 
-        public string RefernceNo { get; set; }
+        public string ReferenceNo { get; set; }
 
         public decimal TotalExel { get; set; }
 
         public decimal TotalTax { get; set; }
 
-        public decimal TotalInel { get; set; }
+        public decimal TotalIncl { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }
+        public object OrderItem { get; set; }
 
+        public ICollection<OrderItem> OrderItemsList { get; set; }
     }
 }
