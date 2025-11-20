@@ -1,25 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SpilSalesOrder.Application.DTOs;
-using SpilSalesOrder.Application.Interfaces;   
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-namespace SpilSalesOrder.API.Controllers
-{
+using SpilSalesOrder.Application.DTOs;
+using SpilSalesOrder.Application.Interfaces;
 
     [ApiController]
     [Route("api/[controller]")]
     public class ClientController : ControllerBase
     {
-        private readonly IclientService _clientService;
+        private readonly IClientService _clientService;
 
-        public ClientController(IclientService clientService)
+        public ClientController(IClientService clientService)
         {
             _clientService = clientService;
         }
 
-        [HttpGet("api/clients")]
-        public async Task<ActionResult<List<ClientDto>>> GetAllClients()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ClientDto>>> GetAllClients()
         {
             var clients = await _clientService.GetAllClients();
             return Ok(clients);
@@ -28,7 +25,7 @@ namespace SpilSalesOrder.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ClientDto>> GetClientById(long id)
         {
-            var client = await _clientService.GetClientById(id);
+            var client = await _clientService.GetClientByIdAsync(id);
             if (client == null)
             {
                 return NotFound();
@@ -37,22 +34,40 @@ namespace SpilSalesOrder.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ClientDto>> CreateClient(ClientDto clientDto)
+        public async Task<ActionResult<ClientDto>> CreateClient([FromBody] ClientDto clientDto)
         {
-            var createdClient = await _clientService.CreateClient(clientDto);
+            if (clientDto == null)
+            {
+                return BadRequest();
+            }
+            var createdClient = await _clientService.CreateClientAsync(clientDto);
             return CreatedAtAction(nameof(GetClientById), new { id = createdClient.Id }, createdClient);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateClient(long id, ClientDto clientDto)
+        public async Task<IActionResult> UpdateClient(long id, [FromBody] ClientDto clientDto)
         {
-            if (id != clientDto.Id)
+            if (clientDto == null || id != clientDto.Id)
+            {
+                return BadRequest();
+            }
+
+            var updatedClient = await _clientService.UpdateClientAsync(id, clientDto);
+            if (updatedClient == null)
             {
                 return NotFound();
             }
-            return Ok(UpdateClient);
+            return NoContent();
         }
 
-
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteClient(long id)
+        {
+            var result = await _clientService.DeleteClientAsync(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
     }
-}

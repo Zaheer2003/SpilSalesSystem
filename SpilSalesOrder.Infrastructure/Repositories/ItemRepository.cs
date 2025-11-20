@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpilSalesOrder.Domain.Entities;
 using SpilSalesOrder.Infrastructure.Data;
+using SpilSalesOrder.Application.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,31 +18,31 @@ namespace SpilSalesOrder.Infrastructure.Repositories
 
         public async Task<IEnumerable<Item>> GetAllItemsAsync()
         {
-            return await _context.Items.ToListAsync();
+            return await _context.Item.ToListAsync();
         }
 
         public async Task<Item> GetItemByIdAsync(long id)
         {
-            return await _context.Items.FindAsync(id);
+            return await _context.Item.FindAsync(id);
         }
 
         public async Task<Item> AddItemAsync(Item item)
         {
-            await _context.Items.AddAsync(item);
+            await _context.Item.AddAsync(item);
             await _context.SaveChangesAsync();
             return item;
         }
 
         public async Task<Item> UpdateItemAsync(Item item)
         {
-            _context.Items.Update(item);
+            _context.Item.Update(item);
             await _context.SaveChangesAsync();
             return item;
         }
 
         public async Task DeleteItemAsync(Item item)
         {
-            _context.Items.Remove(item);
+            _context.Item.Remove(item);
             await _context.SaveChangesAsync();
         }
     }

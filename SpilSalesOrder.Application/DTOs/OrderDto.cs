@@ -38,7 +38,7 @@ namespace SpilSalesOrder.Application.DTOs
 
     public class SalesOrderItemDto
     {
-     ]  public int ItemId { get; set; }
+        public int ItemId { get; set; }
         public int ItemCode { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

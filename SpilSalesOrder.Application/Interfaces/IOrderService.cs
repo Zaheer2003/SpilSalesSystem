@@ -6,14 +6,14 @@ namespace SpilSalesOrder.Application.Interfaces
 {
     public interface IOrderService
     {
-        Task<Enumerable<OrderDto>> GetAllOrdersAsyn();
+        Task<IEnumerable<OrderDto>> GetAllOrdersAsync();
 
         Task<OrderDto> GetOrderByIdAsync(long id);
 
         Task<OrderDto> CreateOrderAsync(OrderDto orderDto);
 
-        Task<OrderDto> UpdateOrderAsync(OrderDto orderDto);
+        Task<OrderDto> UpdateOrderAsync(long id, OrderDto orderDto);
 
-        Task DeleteOrderAsync(long id);
+        Task<bool> DeleteOrderAsync(long id);
     }
 }
