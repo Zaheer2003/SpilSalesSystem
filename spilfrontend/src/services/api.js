@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://localhost:7218/api'; 
+const API_BASE_URL = 'https://localhost:7118/api'; 
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -14,6 +14,8 @@ export const getOrderById = (id) => api.get(`/Order/${id}`);
 export const createOrder = (order) => api.post('/Order', order);
 export const updateOrder = (id, order) => api.put(`/Order/${id}`, order);
 export const deleteOrder = (id) => api.delete(`/Order/${id}`);
+
+export const getNextInvoiceNumber = () => api.get('/Order/next-invoice-number');
 
 export const getItems = () => api.get('/Item');
 export const getItemById = (id) => api.get(`/Item/${id}`);

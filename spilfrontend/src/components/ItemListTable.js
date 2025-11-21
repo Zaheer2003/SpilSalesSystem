@@ -60,8 +60,8 @@ const ItemListTable = ({ items, itemCodeOptions, handleItemChange, handleRemoveI
                     >
                       <option value="">Select Item</option>
                       {itemCodeOptions.map(option => (
-                        <option key={option.itemCode} value={option.itemCode}>
-                          {option.name}
+                        <option key={option.itemCode} value={option.itemCode} className="text-gray-900">
+                          {`${option.itemCode} - ${option.name}`}
                         </option>
                       ))}
                     </select>
@@ -87,7 +87,7 @@ const ItemListTable = ({ items, itemCodeOptions, handleItemChange, handleRemoveI
                       type="number"
                       className="block w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1 text-center"
                       value={item.quantity}
-                      onChange={(e) => handleItemChange(item.id, 'quantity', parseFloat(e.target.value))}
+                      onChange={(e) => handleItemChange(item.id, 'quantity', isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value))}
                     />
                   </td>
                   <td className="py-2 px-3 text-center">
@@ -95,7 +95,7 @@ const ItemListTable = ({ items, itemCodeOptions, handleItemChange, handleRemoveI
                       type="number"
                       className="block w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1 text-center"
                       value={item.price}
-                      onChange={(e) => handleItemChange(item.id, 'price', parseFloat(e.target.value))}
+                      onChange={(e) => handleItemChange(item.id, 'price', isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value))}
                     />
                   </td>
                   <td className="py-2 px-3 text-center">
@@ -103,7 +103,7 @@ const ItemListTable = ({ items, itemCodeOptions, handleItemChange, handleRemoveI
                       type="number"
                       className="block w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1 text-center"
                       value={item.taxRate}
-                      onChange={(e) => handleItemChange(item.id, 'taxRate', parseFloat(e.target.value))}
+                      onChange={(e) => handleItemChange(item.id, 'taxRate', isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value))}
                     />
                   </td>
                   <td className="py-2 px-3 text-right">{exclAmount.toFixed(2)}</td>

@@ -8,10 +8,10 @@ function Combobox({ items, displayKey, onSelectItem, initialSelectedItem }) {
 
   // Initialize input value and selected item
   useEffect(() => {
-    if (initialSelectedItem) {
-      setInputValue(initialSelectedItem[displayKey]);
+    if (initialSelectedItem && initialSelectedItem[displayKey]) {
+      setInputValue(initialSelectedItem[displayKey] || '');
     } else {
-      setInputValue(''); // Ensure input is empty if no initial selection
+      setInputValue('');
     }
   }, [initialSelectedItem, displayKey]);
 
@@ -107,7 +107,7 @@ function Combobox({ items, displayKey, onSelectItem, initialSelectedItem }) {
           {filteredSuggestions.map((item) => (
             <li
               key={item.id} // Assuming items have a unique 'id'
-              className="px-3 py-2 cursor-pointer hover:bg-gray-200"
+              className="px-3 py-2 cursor-pointer hover:bg-gray-200 text-gray-900"
               onClick={() => handleSelectSuggestion(item)}
             >
               {item[displayKey]}

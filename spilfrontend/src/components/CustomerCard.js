@@ -13,7 +13,7 @@ function CustomerCard({ customers, selectedCustomer, onSelectCustomer }) {
         <div className="w-2/3"> {/* Wrapper div for Combobox */}
           <Combobox
             items={customers} // Use passed customers list
-            displayKey="customerName" // Assuming Customer entity has CustomerName
+            displayKey="name" // Assuming Customer entity has CustomerName
             onSelectItem={onSelectCustomer}
             initialSelectedItem={selectedCustomer}
           />

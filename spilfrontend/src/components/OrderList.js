@@ -37,8 +37,8 @@ const OrderList = ({ orders }) => {
                   </span>
                 </td>
                 <td className="py-3 px-6 text-left">{order.customerName}</td>
-                <td className="py-3 px-6 text-right">{order.totalAmount.toFixed(2)}</td>
-                <td className="py-3 px-6 text-left">{order.date}</td>
+                <td className="py-3 px-6 text-right">{order.totalIncl.toFixed(2)}</td>
+                <td className="py-3 px-6 text-left">{order.invoiceDate}</td>
                 <td className="py-3 px-6 text-center">
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs"

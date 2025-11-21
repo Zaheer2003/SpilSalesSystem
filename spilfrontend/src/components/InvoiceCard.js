@@ -14,7 +14,7 @@ function InvoiceCard({ invoiceDetails, onInvoiceChange }) {
           name="invoiceNo"
           className="w-2/3 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="Invoice Number"
-          value={invoiceDetails.invoiceNo}
+          value={invoiceDetails.invoiceNo || ''}
           onChange={onInvoiceChange}
         />
       </div>
@@ -27,7 +27,7 @@ function InvoiceCard({ invoiceDetails, onInvoiceChange }) {
           id="invoiceDate"
           name="invoiceDate"
           className="w-2/3 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          value={invoiceDetails.invoiceDate}
+          value={invoiceDetails.invoiceDate || ''}
           onChange={onInvoiceChange}
         />
       </div>
@@ -41,7 +41,7 @@ function InvoiceCard({ invoiceDetails, onInvoiceChange }) {
           name="referenceNo"
           className="w-2/3 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="Reference Number"
-          value={invoiceDetails.referenceNo}
+          value={invoiceDetails.referenceNo || ''}
           onChange={onInvoiceChange}
         />
       </div>

@@ -17,6 +17,7 @@ import {
 } from '../redux/slices/salesOrderSlice';
 import { fetchItems } from '../redux/slices/itemSlice';
 import { fetchCustomers } from '../redux/slices/customerSlice';
+import { getNextInvoiceNumber } from '../services/api';
 
 function SalesOrderPage() {
   const { orderId } = useParams();
@@ -32,12 +33,12 @@ function SalesOrderPage() {
   const saveOrderStatus = useSelector(state => state.salesOrder.saveOrderStatus);
   const saveOrderError = useSelector(state => state.salesOrder.saveOrderError);
 
-  const itemCodeOptions = salesOrderItems.map(item => ({ itemCode: item.itemCode, name: item.name, ...item }));
+  const itemCodeOptions = salesOrderItems.map(item => ({ ...item, name: item.description }));
 
   
   const [customerDetails, setCustomerDetails] = useState({
     customerId: '', 
-    customerName: '',
+    name: '',
     address1: '',
     address2: '',
     city: '',
@@ -49,6 +50,9 @@ function SalesOrderPage() {
     invoiceDate: new Date().toISOString().split('T')[0],
     referenceNo: '',
   });
+
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
 
   
   useEffect(() => {
@@ -62,6 +66,16 @@ function SalesOrderPage() {
       dispatch(setInitialItems([
         { id: Date.now(), itemCode: '', description: '', note: '', quantity: 1, price: 0.00, taxRate: 10 },
       ]));
+      // Fetch next invoice number
+      const fetchNextInvoiceNumber = async () => {
+        try {
+          const response = await getNextInvoiceNumber();
+          setInvoiceDetails(prev => ({ ...prev, invoiceNo: response.data }));
+        } catch (error) {
+          console.error("Failed to fetch next invoice number:", error);
+        }
+      };
+      fetchNextInvoiceNumber();
     }
 
     return () => {
@@ -74,7 +88,7 @@ function SalesOrderPage() {
       setInitialItems(currentOrder.orderItems || []);
       setCustomerDetails({
         customerId: currentOrder.customerId || '',
-        customerName: currentOrder.customerName || '',
+        name: currentOrder.customerName || '',
         address1: currentOrder.addressLine1 || '',
         address2: currentOrder.addressLine2 || '',
         city: currentOrder.city || '',
@@ -83,7 +97,7 @@ function SalesOrderPage() {
       setInvoiceDetails({
         invoiceNo: currentOrder.invoiceNo || '',
         invoiceDate: currentOrder.invoiceDate ? new Date(currentOrder.invoiceDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-        referenceNo: currentOrder.refernceNo || '',
+        referenceNo: currentOrder.referenceNo || '',
       });
     }
   }, [currentOrderStatus, currentOrder, dispatch]);
@@ -104,12 +118,12 @@ function SalesOrderPage() {
 
   const handleCustomerSelect = (customer) => {
     setCustomerDetails({
-      customerId: customer.id,
-      customerName: customer.name,
-      address1: customer.address1,
-      address2: customer.address2,
-      city: customer.address3, 
-      postalCode: customer.postCode,
+      customerId: customer.id || '',
+      name: customer.name || '',
+      address1: customer.addressLine1 || '',
+      address2: customer.addressLine2 || '',
+      city: customer.city || '', 
+      postalCode: customer.postalCode || '',
     });
   };
 
@@ -124,24 +138,35 @@ function SalesOrderPage() {
     const orderToSave = {
       id: orderId ? parseInt(orderId) : 0,
       customerId: customerDetails.customerId,
-      orderDate: invoiceDetails.invoiceDate,
+      invoiceDate: invoiceDetails.invoiceDate,
       invoiceNo: invoiceDetails.invoiceNo,
       refernceNo: invoiceDetails.referenceNo,
-      customerName: customerDetails.customerName,
+      customerName: customerDetails.name,
       addressLine1: customerDetails.address1,
       addressLine2: customerDetails.address2,
       city: customerDetails.city,
       postalCode: customerDetails.postalCode,
       totalAmount: items.reduce((acc, item) => acc + (item.quantity * item.price * (1 + item.taxRate / 100)), 0),
-      TotalExcl: items.reduce((acc, item) => acc + (item.quantity * item.price), 0),
-      TotalTax: items.reduce((acc, item) => acc + (item.quantity * item.price * item.taxRate / 100), 0),
-      TotalInel: items.reduce((acc, item) => acc + (item.quantity * item.price * (1 + item.taxRate / 100)), 0),
-      OrderItems: items.map(item => ({
-        productId: item.id, 
-        quantity: item.quantity,
-        unitPrice: item.price,
-        totalPrice: item.quantity * item.price,
-      })),
+      totalExel: items.reduce((acc, item) => acc + (item.quantity * item.price), 0),
+      totalTax: items.reduce((acc, item) => acc + (item.quantity * item.price * item.taxRate / 100), 0),
+      totalIncl: items.reduce((acc, item) => acc + (item.quantity * item.price * (1 + item.taxRate / 100)), 0),
+      OrderItems: items.map(item => {
+        const exclAmount = item.quantity * item.price;
+        const taxAmount = exclAmount * (item.taxRate / 100);
+        const inclAmount = exclAmount + taxAmount;
+
+        return {
+          itemId: item.id,
+          itemCode: item.itemCode,
+          description: item.description,
+          price: item.price, // This is UnitPrice
+          taxRate: item.taxRate,
+          quantity: item.quantity,
+          totalExel: exclAmount,
+          totalTax: taxAmount,
+          totalIncl: inclAmount,
+        };
+      }),
     };
 
     if (orderId) {
@@ -151,7 +176,11 @@ function SalesOrderPage() {
     }
 
     if (saveOrderStatus === 'succeeded') {
-        navigate('/'); // Navigate back to home page after successful save
+        setShowSuccessMessage(true);
+        setTimeout(() => {
+            setShowSuccessMessage(false);
+            navigate('/');
+        }, 2000); // Show message for 2 seconds
     } else if (saveOrderStatus === 'failed') {
         console.error("Failed to save order:", saveOrderError);
     }
@@ -170,6 +199,12 @@ function SalesOrderPage() {
       <h1 className="text-2xl font-bold mb-4 text-center">Sales Order</h1>
 
       <form className="mt-4" onSubmit={handleSaveOrder}>
+        {showSuccessMessage && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <strong className="font-bold">Success!</strong>
+            <span className="block sm:inline"> Your order has been saved. Redirecting...</span>
+          </div>
+        )}
         <div className="mb-4"> {/* Added mb-4 for spacing */}
           <button
             type="submit"

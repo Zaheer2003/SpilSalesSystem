@@ -93,14 +93,15 @@ const salesOrderSlice = createSlice({
       const itemToUpdate = state.items.find(item => item.id === id);
       if (itemToUpdate) {
         if (field === 'itemCode') {
-          const selectedItem = action.payload.allItems.find(dataItem => dataItem.itemCode === value);
+          const selectedItem = action.payload.allItems.find(dataItem => dataItem.itemCode === parseInt(value, 10));
           if (selectedItem) {
             Object.assign(itemToUpdate, {
+              id: selectedItem.id, // Update the frontend item's ID with the backend item's ID
               itemCode: value,
-              description: selectedItem.description,
-              note: selectedItem.note,
-              price: selectedItem.price,
-              taxRate: selectedItem.taxRate,
+              description: selectedItem.description || '',
+              note: selectedItem.note || '',
+              price: selectedItem.price || 0,
+              taxRate: selectedItem.taxRate || 0,
             });
           } else {
             itemToUpdate[field] = value;
